@@ -21,7 +21,7 @@ if (context.eventName === 'push') {
     const { data: pullRequest } = await octokit.pulls.get({
         owner: 'octokit',
         repo: 'rest.js',
-        pull_number: 123,
+        pull_number: 3,
         mediaType: {
           format: 'diff'
         }
@@ -29,3 +29,5 @@ if (context.eventName === 'push') {
 
     console.log(pullRequest);
 }
+
+run()
