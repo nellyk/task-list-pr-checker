@@ -9,8 +9,4 @@ const context = github.context;
 
 const github = require('@actions/github');
 
-const newIssue = await octokit.issues.create({
-  ...context.repo,
-  title: 'New issue!',
-  body: 'Hello Universe!'
-});
+console.log(context);
