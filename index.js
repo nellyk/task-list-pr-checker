@@ -1,4 +1,5 @@
 const github = require('@actions/github');
+const core = require('@actions/core');
 const webhooks = require('@octokit/webhooks');
 
 const context = github.context;
@@ -7,7 +8,7 @@ if (context.eventName === 'push') {
     const pushPayload = webhooks.WebhookPayloadPush;
     core.info(`The head commit is: ${pushPayload.head}`)
   }
-  
+
   async function run() {
     // This should be a token with access to your repository scoped in as a secret.
     // The YML workflow will need to set myToken with the GitHub Secret Token
