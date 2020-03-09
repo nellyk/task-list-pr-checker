@@ -29,6 +29,7 @@ const new_comment = octokit.issues.createComment({
     body: message
   });
 
+  if(context.eventName === "issue_comment") {
   const checkStatus =  octokit.repos.createStatus({
       ...context.repo,  
       sha: context.payload.pull_request.head.sha,
@@ -36,6 +37,7 @@ const new_comment = octokit.issues.createComment({
       description: status ? "you have tasks" : "this are all done",
       context: "tasks"
   });
+}
 
 console.log(context);
 console.log(new_comment);
