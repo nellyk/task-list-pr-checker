@@ -38,7 +38,7 @@ const new_comment = octokit.issues.createComment({
   });
 
 console.log(context);
-console.log(new_comment);
+console.log(checkStatus);
     }catch(error){
     core.setFailed(error.message);
     }
