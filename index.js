@@ -4,19 +4,44 @@ const webhooks = require('@octokit/webhooks');
 
 async function run() {
 
-const myToken = core.getInput('myToken');
+    try {
+const github_token = core.getInput('GITHUB_TOKEN');
 
-const octokit = new github.GitHub(myToken);
+
+const octokit = new github.GitHub(github_token);
 const context = github.context;
 
-const newIssue = await octokit.issues.create({
-  ...context.repo,
-  title: 'New issue!',
-  body: 'Hello Universe!'
-});
+if (context.payload.pull_request == null) {
+    core.setFailed('No pull request found.');
+    return;
+}
+const pull_request_number = context.payload.pull_request.number;
+
+const title = context.payload.pull_request.title;
+const body = context.payload.pull_request.body;
+const isUnChecked = /-\s\[\s\]/g.test(body);
+const status = isUnChecked ? "pending" : "success";
+const message = `Updating PR "${title}" (${context.payload.pull_request
+    .html_url}): ${status}`;
+const new_comment = octokit.issues.createComment({
+    ...context.repo,
+    issue_number: pull_request_number,
+    body: message
+  });
+
+  const checkStatus =  octokit.repos.createStatus({
+      ...context.repo,  
+      sha: context.payload.pull_request.head.sha,
+      state: status,
+      description: status ? "you have tasks" : "this are all done",
+      context: "tasks"
+  });
 
 console.log(context);
-console.log(newIssue);
+console.log(new_comment);
+    }catch(error){
+    core.setFailed(error.message);
+    }
 
 }
 run();
