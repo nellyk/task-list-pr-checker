@@ -1,12 +1,12 @@
 on: [pull_request,pull_request_review,issue_comment]
- types: edited
-jobs:
-  hello_world_job:
-    runs-on: ubuntu-latest
-    name: A job to say hello
-    steps:
-    - name: Hello world action step
-      id: hello
-      uses: nellyk/task-list-pr-checker@v1
-      with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  types: edited
+    jobs:
+      hello_world_job:
+        runs-on: ubuntu-latest
+        name: A job to say hello
+        steps:
+        - name: Hello world action step
+          id: hello
+          uses: nellyk/task-list-pr-checker@v1
+          with:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
