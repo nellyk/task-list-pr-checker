@@ -6,7 +6,7 @@ const context = github.context;
 
 if (context.eventName === 'push') {
     const pushPayload = webhooks.WebhookPayloadPush;
-    core.info(`The head commit is: ${pushPayload.head}`)
+    core.info(`The head commit is: ${pushPayload}`)
   }
 
   async function run() {
