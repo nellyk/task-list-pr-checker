@@ -1,0 +1,25 @@
+{
+  "name": "task-list-pr-checker",
+  "version": "1.0.0",
+  "description": "This github action to checks for open tasks within your pr",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nellyk/task-list-pr-checker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nellyk/task-list-pr-checker/issues"
+  },
+  "homepage": "https://github.com/nellyk/task-list-pr-checker#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.3",
+    "@actions/github": "^2.1.1",
+    "@octokit/webhooks": "^7.1.0"
+  }
+}
