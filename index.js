@@ -18,7 +18,8 @@ if (context.payload.pull_request == null) {
 const pull_request_number = context.payload.pull_request.number;
 
 const title = context.payload.pull_request.title;
-const body = context.payload.pull_request.body;
+const body = context.eventName === "issue_comment"? context.payload.comment.body: context.payload.pull_request.body;
+const pull_request_review_comment = context.payload.pull_request.comments;
 const isUnChecked = /-\s\[\s\]/g.test(body);
 const status = isUnChecked ? "pending" : "success";
 const message = `Updating PR "${title}" (${context.payload.pull_request
