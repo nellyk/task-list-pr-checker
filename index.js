@@ -25,11 +25,6 @@ const isUnChecked = /-\s\[\s\]/g.test(body);
 const status = isUnChecked ? "pending" : "success";
 const message = `Updating PR "${title}" (${context.payload.pull_request
     .html_url}): ${status}`;
-const new_comment = octokit.issues.createComment({
-    ...context.repo,
-    issue_number: pull_request_number,
-    body: message
-  });
 
   const checkStatus =  octokit.repos.createStatus({
       ...context.repo,  
