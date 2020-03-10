@@ -33,7 +33,7 @@ const new_comment = octokit.issues.createComment({
       ...context.repo,  
       sha: context.payload.pull_request.head.sha,
       state: status,
-      description: status ? "you have tasks" : "this are all done",
+      description: status === "pending" ? "you have tasks" : "this are all done",
       context: "tasks"
   });
 
