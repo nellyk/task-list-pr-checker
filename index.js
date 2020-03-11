@@ -26,11 +26,11 @@ async function run() {
       context: 'tasks',
     });
 
-    const issueComment = octokit.repos.issue_comments({
+    const issueComments = octokit.issues.listComments({
       ...context.repo,
-      number: pullRequestNumber,
+      issue_number: pullRequestNumber,
     });
-    core.setOutput('issueComment', issueComment);
+    core.setOutput('issueComments', issueComments);
 
 
     console.log(context);
