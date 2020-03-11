@@ -18,7 +18,7 @@ if (context.payload.pull_request == null) {
 const pull_request_number = context.payload.pull_request.number;
 
 const title = context.payload.pull_request.title;
-const body = context.eventName === "issue_comment" ? context.payload.comment.body: context.payload.pull_request.body;
+const body = context.eventName === ("issue_comment" || "pull_request_review_comment") ? context.payload.comment.body: context.payload.pull_request.body;
 core.setOutput('comment_body', body);
 
 const isUnChecked = /-\s\[\s\]/g.test(body);
@@ -35,6 +35,7 @@ const message = `Updating PR "${title}" (${context.payload.pull_request
   });
   
 
+  console.log(context)
 console.log(context.payload);
 console.log(`muhahaha`);
 console.log(context.payload.pull_request);
