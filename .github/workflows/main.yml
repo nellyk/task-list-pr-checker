@@ -1,6 +1,18 @@
 on:
   pull_request:
-    types: [opened,edited]
+    types: 
+      - opened
+      - edited
+  pull_request_review_comment:
+    types: 
+      - created
+      - deleted
+      - edited
+  issue_comment:
+    types: 
+      - created
+      - deleted
+      - edited
 jobs:
   hello_world_job:
     runs-on: ubuntu-latest

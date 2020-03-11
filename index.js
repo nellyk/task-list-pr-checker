@@ -19,7 +19,6 @@ const pull_request_number = context.payload.pull_request.number;
 
 const title = context.payload.pull_request.title;
 const body = context.eventName === ("issue_comment" || "pull_request_review_comment") ? context.payload.comment.body: context.payload.pull_request.body;
-core.setOutput('comment_body', body);
 
 const isUnChecked = /-\s\[\s\]/g.test(body);
 const status = isUnChecked ? "pending" : "success";
@@ -33,9 +32,10 @@ const message = `Updating PR "${title}" (${context.payload.pull_request
       description: status === "pending" ? "Pending tasks" : "Done tasks",
       context: "tasks"
   });
-  
+  core.setOutput('comment_body', body);
 
-  console.log(context)
+
+console.log(context)
 console.log(context.payload);
 console.log(`muhahaha`);
 console.log(context.payload.pull_request);
