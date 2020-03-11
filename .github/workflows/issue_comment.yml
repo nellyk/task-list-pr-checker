@@ -6,8 +6,12 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to say hello
     steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+    steps:
     - name: Hello world action step
       id: hello
-      uses: nellyk/task-list-pr-checker@v1
+      uses: ./
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
