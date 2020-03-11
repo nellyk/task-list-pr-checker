@@ -27,8 +27,8 @@ async function run() {
     });
 
     const {data: issueComments} = await octokit.issues.listComments({
-      repo: context.repo,
-      owner: context.owner,
+      repo: 'nellyk',
+      owner: 'task-list-pr-checker',
       issue_number: pullRequestNumber,
     });
     console.log(issueComments);
