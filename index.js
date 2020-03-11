@@ -23,10 +23,11 @@ async function run() {
 
 
     console.log(issueComments);
-    let issueComment = '';
-    const { body } = context.payload.pull_request;
-    for (let index = 0; index < issueComments.length; index++) {
+    let issueComment;
+    let body;
+    for (let index = 0; index < issueComments.length; index += 1) {
       issueComment = issueComments[index];
+      body = issueComment !== null ? issueComment.body : context.payload.pull_request.body;
       console.log(issueComment);
     }
     const isUnChecked = /-\s\[\s\]/g.test(body);
