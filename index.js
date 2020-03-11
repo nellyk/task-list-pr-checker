@@ -36,6 +36,8 @@ const message = `Updating PR "${title}" (${context.payload.pull_request
   
 
 console.log(context.payload);
+console.log(context.payload.pull_request);
+console.log(context.payload.pull_request.comments);
 console.log(checkStatus);
     }catch(error){
     core.setFailed(error.message);
