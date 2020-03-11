@@ -8,16 +8,29 @@ async function run() {
 
     const octokit = new github.GitHub(githubToken);
     const { context } = github;
+    const pullRequestNumber = context.payload.pull_request.number;
 
     if (context.payload.pull_request == null) {
       core.setFailed('No pull request found.');
       return;
     }
-    const body = context.eventName === ('issue_comment' || 'pull_request_review_comment') ? context.payload.comment.body : context.payload.pull_request.body;
-    const pullRequestNumber = context.payload.pull_request.number;
+
+    const { data: issueComments } = await octokit.issues.listComments({
+      owner: 'nellyk',
+      repo: 'task-list-pr-checker',
+      issue_number: pullRequestNumber,
+    });
+
+
+    console.log(issueComments);
+    let issueComment = '';
+    const { body } = context.payload.pull_request;
+    for (let index = 0; index < issueComments.length; index++) {
+      issueComment = issueComments[index];
+      console.log(issueComment);
+    }
     const isUnChecked = /-\s\[\s\]/g.test(body);
     const status = isUnChecked ? 'pending' : 'success';
-
     const checkStatus = octokit.repos.createStatus({
       ...context.repo,
       sha: context.payload.pull_request.head.sha,
@@ -25,14 +38,6 @@ async function run() {
       description: status === 'pending' ? 'Pending tasks' : 'Done tasks',
       context: 'tasks',
     });
-
-    const {data: issueComments} = await octokit.issues.listComments({
-      owner: 'nellyk',
-      repo: 'task-list-pr-checker',
-      issue_number: pullRequestNumber,
-    });
-    console.log(issueComments);
-
     console.log(context);
     console.log(context.payload);
     console.log('muhahaha');
