@@ -1,9 +1,4 @@
-on:
-  pull_request:
-    types: [opened,edited]
-  pull_request_review_comment:
-    types: [created,deleted,edited]
-  issue_comment:
+on: [pull_request,pull_request_review_comment,issue_comment]
     types: [created,deleted,edited]
 jobs:
   hello_world_job:
