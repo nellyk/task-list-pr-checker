@@ -4,6 +4,7 @@
   "description": "This github action to checks for open tasks within your pr",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,5 +22,9 @@
     "@actions/core": "^1.2.3",
     "@actions/github": "^2.1.1",
     "@octokit/webhooks": "^7.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-amex": "^11.2.0"
   }
 }
