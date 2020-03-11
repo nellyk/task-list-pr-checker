@@ -8,33 +8,36 @@ async function run() {
 
     const octokit = new github.GitHub(githubToken);
     const { context } = github;
-    const pullRequestNumber = context.payload.pull_request.number;
-
-    if (context.payload.pull_request == null) {
-      core.setFailed('No pull request found.');
-      return;
-    }
-
-    const { data: issueComments } = await octokit.issues.listComments({
-      owner: 'nellyk',
-      repo: 'task-list-pr-checker',
-      issue_number: pullRequestNumber,
-    });
-
-
-    console.log(issueComments);
-    let issueComment;
     let body;
-    for (let index = 0; index < issueComments.length; index += 1) {
-      issueComment = issueComments[index];
-      if (context.eventName === 'pull_request_review_comment') {
-        body = context.payload.comment.body;
-      } else if (issueComment.body !== null) {
-        body = issueComment.body;
-      } else {
-        body = context.payload.pull_request.body;
+    let issueComment;
+    if (context.eventName !== 'issue_comment') {
+      const pullRequestNumber = context.payload.pull_request.number;
+      if (context.payload.pull_request == null) {
+        core.setFailed('No pull request found.');
+        return;
       }
-      console.log(issueComment);
+
+      const { data: issueComments } = await octokit.issues.listComments({
+        ...context.repo,
+        issue_number: pullRequestNumber,
+      });
+
+
+      console.log(issueComments);
+      for (let index = 0; index < issueComments.length; index += 1) {
+        issueComment = issueComments[index];
+        if (context.eventName === 'pull_request_review_comment') {
+          body = context.payload.comment.body;
+        } else if (issueComment.body !== null) {
+          body = issueComment.body;
+        } else {
+          body = context.payload.pull_request.body;
+        }
+        console.log(issueComment);
+      }
+    } else {
+      console.log(context.payload);
+      body = context.payload.comment.body;
     }
     const isUnChecked = /-\s\[\s\]/g.test(body);
     const status = isUnChecked ? 'pending' : 'success';
