@@ -36,8 +36,13 @@ async function run() {
         console.log(issueComment);
       }
     } else {
-      console.log(context.payload);
-      body = context.payload.comment.body;
+      const { data: listComments } = await octokit.issues.listCommentsForRepo({
+        ...context.repo,
+      });
+      for (let index = 0; index < listComments.length; index += 1) {
+        const listComment = listComments[index];
+        body = listComment.body;
+      }
     }
     const isUnChecked = /-\s\[\s\]/g.test(body);
     const status = isUnChecked ? 'pending' : 'success';
