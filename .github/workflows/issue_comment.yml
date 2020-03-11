@@ -8,6 +8,6 @@ jobs:
     steps:
     - name: Hello world action step
       id: hello
-      uses: ./
+      uses: nellyk/task-list-pr-checker@v1
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
