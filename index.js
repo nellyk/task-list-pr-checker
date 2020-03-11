@@ -28,6 +28,7 @@ async function run() {
 
     const issueComments = octokit.issues.listComments({
       ...context.repo,
+      owner: context.owner,
       issue_number: pullRequestNumber,
     });
     core.setOutput('issueComments', issueComments);
