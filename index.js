@@ -27,7 +27,13 @@ async function run() {
     let body;
     for (let index = 0; index < issueComments.length; index += 1) {
       issueComment = issueComments[index];
-      body = issueComment !== null ? issueComment.body : context.payload.pull_request.body;
+      if (context.eventName === 'pull_request_review_comment') {
+        body = context.payload.comment.body;
+      } else if (issueComment.body !== null) {
+        body = issueComment.body;
+      } else {
+        body = context.payload.pull_request.body;
+      }
       console.log(issueComment);
     }
     const isUnChecked = /-\s\[\s\]/g.test(body);
