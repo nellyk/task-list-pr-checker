@@ -44,6 +44,7 @@ async function run() {
       for (let index = 0; index < listComments.length; index += 1) {
         const comment = listComments[index];
         body = comment.body;
+        console.log(`This is the comment yebo ${body}`);
       }
     }
     const isUnChecked = /-\s\[\s\]/g.test(body);
