@@ -28,20 +28,22 @@ async function run() {
         issueComment = issueComments[index];
         if (context.eventName === 'pull_request_review_comment') {
           body = context.payload.comment.body;
-        } else if (issueComment.body !== null) {
-          body = issueComment.body;
         } else {
           body = context.payload.pull_request.body;
         }
         console.log(issueComment);
       }
     } else {
-      const { data: listComments } = await octokit.issues.listCommentsForRepo({
+      // check if undefined then get the spefic comment
+      // pull request number afterwards pass this down tho the method
+      const { data: listComments } = await octokit.pulls.listComments({
         ...context.repo,
+        pull_number: context.payload.issue.number,
       });
+
       for (let index = 0; index < listComments.length; index += 1) {
-        const listComment = listComments[index];
-        body = listComment.body;
+        const comment = listComments[index];
+        body = comment.body;
       }
     }
     const isUnChecked = /-\s\[\s\]/g.test(body);
