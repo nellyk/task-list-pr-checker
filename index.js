@@ -40,7 +40,7 @@ async function run() {
       sha = pullRequest.head.sha;
     }
     sha = context.eventName !== 'issue_comment' ? context.payload.pull_request.head.sha : sha;
-    const { data: checkStatus } = await octokit.repos.createStatus({
+    const checkStatus = octokit.repos.createStatus({
       ...context.repo,
       sha,
       state: status,
