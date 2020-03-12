@@ -53,7 +53,7 @@ async function run() {
       console.log(`yebo ${sha}`);
     }
     sha = context.eventName !== 'issue_comment' ? context.payload.pull_request.head.sha : sha;
-    const checkStatus = octokit.pulls.get({
+    const checkStatus = octokit.repos.createStatus({
       ...context.repo,
       sha,
       state: status,
@@ -65,7 +65,6 @@ async function run() {
     console.log('muhahaha');
     console.log(context.payload.pull_request);
     console.log('muhahaha');
-    console.log(context.payload.pull_request.comments);
     console.log('muhahaha');
     console.log(context.payload.comment);
     console.log('muhahaha');
