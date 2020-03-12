@@ -10,7 +10,7 @@ async function run() {
     const { context } = github;
     let body;
     let issueComment;
-    if (context.eventName !== 'issue_comment' || context.eventName === 'pull_request_review_comment') {
+    if (context.eventName === 'pull_request') {
       const pullRequestNumber = context.payload.pull_request.number;
       if (context.payload.pull_request == null) {
         core.setFailed('No pull request found.');
