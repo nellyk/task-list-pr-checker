@@ -7,26 +7,14 @@ async function run() {
     const octokit = new github.GitHub(githubToken);
     const { context } = github;
     let body;
-    let issueComment;
+    //let issueComment;
     if (context.eventName === 'pull_request') {
-      const pullRequestNumber = context.payload.pull_request.number;
+      // const pullRequestNumber = context.payload.pull_request.number;
       if (context.payload.pull_request === null) {
         core.setFailed('No pull request found.');
         return;
       }
-      const { data: issueComments } = await octokit.issues.listComments({
-        ...context.repo,
-        issue_number: pullRequestNumber,
-      });
-      console.log(issueComments);
-      for (let index = 0; index < issueComments.length; index += 1) {
-        issueComment = issueComments[index];
-        if (issueComment.body !== null) {
-          body = issueComment.body;
-        } else {
-          body = context.payload.pull_request.body;
-        }
-      }
+      body = context.payload.pull_request.body;
     } else {
       body = context.payload.comment.body;
     }
