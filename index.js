@@ -18,6 +18,7 @@ async function run() {
         ...context.repo,
         issue_number: pullRequestNumber,
       });
+      console.log(issueComments);
       for (let index = 0; index < issueComments.length; index += 1) {
         issueComment = issueComments[index];
         if (issueComment.body !== null) {
