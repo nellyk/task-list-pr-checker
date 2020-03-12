@@ -44,7 +44,7 @@ async function run() {
     let sha;
     // check if undefined then get the spefic comment
     // pull request number afterwards pass this down tho the method
-    if (context.eventName !== 'issue_comment') {
+    if (context.eventName === 'issue_comment') {
       const { data: pullRequest } = await octokit.pulls.get({
         ...context.repo,
         pull_number: context.payload.issue.number,
