@@ -31,7 +31,7 @@ async function run() {
       ...context.repo,
       sha,
       state: status,
-      description: status === 'pending' ? '🔶🔶🔶Tasks are pending 🔶🔶🔶' : '✅✅✅All tasks are done ✅✅✅',
+      description: status === 'pending' ? 'Tasks are pending' : 'All tasks are done',
       context: 'tasks',
     });
     core.setOutput("status", status);
