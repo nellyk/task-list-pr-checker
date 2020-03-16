@@ -14,12 +14,11 @@ on:
       - deleted
       - edited
 jobs:
-  hello_world_job:
+  task_checker:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: Check for tasks in pull requests
     steps:
-    - name: Hello world action step
-      id: hello
+    - name: Pull request task checker
       uses: nellyk/task-list-pr-checker@v1
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

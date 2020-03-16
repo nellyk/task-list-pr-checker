@@ -7,9 +7,7 @@ async function run() {
     const octokit = new github.GitHub(githubToken);
     const { context } = github;
     let body;
-    //let issueComment;
     if (context.eventName === 'pull_request') {
-      // const pullRequestNumber = context.payload.pull_request.number;
       if (context.payload.pull_request === null) {
         core.setFailed('No pull request found.');
         return;
@@ -18,8 +16,8 @@ async function run() {
     } else {
       body = context.payload.comment.body;
     }
-    const isUnChecked = /-\s\[\s\]/g.test(body);
-    const status = isUnChecked ? 'pending' : 'success';
+    const hasTasks = /-\s\[\s\]/g.test(body);
+    const status = hasTasks ? 'pending' : 'success';
     let sha;
     if (context.eventName === 'issue_comment') {
       const { data: pullRequest } = await octokit.pulls.get({
@@ -33,9 +31,10 @@ async function run() {
       ...context.repo,
       sha,
       state: status,
-      description: status === 'pending' ? 'Pending tasks' : 'Done tasks',
+      description: status === 'pending' ? '🔶🔶🔶Tasks are pending 🔶🔶🔶' : '✅✅✅All tasks are done ✅✅✅',
       context: 'tasks',
     });
+    core.setOutput("status", status);
     console.log(checkStatus);
   } catch (error) {
     core.setFailed(error.message);
