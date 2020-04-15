@@ -1,11 +1,10 @@
-const github = require('@actions/github');
+const { context, GitHub } = require('@actions/github');
 const core = require('@actions/core');
 
 async function run() {
   try {
     const githubToken = core.getInput('GITHUB_TOKEN');
-    const octokit = new github.GitHub(githubToken);
-    const { context } = github;
+    const octokit = new GitHub(githubToken);
     let body;
     if (context.eventName === 'pull_request') {
       if (context.payload.pull_request === null) {
@@ -17,8 +16,8 @@ async function run() {
       body = context.payload.comment.body;
     }
     const hasTasks = /-\s\[\s\]/g.test(body);
-    const status = hasTasks ? 'pending' : 'success';
-    let sha;
+    const state = hasTasks ? 'pending' : 'success';
+    let { sha } = context.payload.pull_request.head;
     if (context.eventName === 'issue_comment') {
       const { data: pullRequest } = await octokit.pulls.get({
         ...context.repo,
@@ -26,15 +25,14 @@ async function run() {
       });
       sha = pullRequest.head.sha;
     }
-    sha = context.eventName !== 'issue_comment' ? context.payload.pull_request.head.sha : sha;
     const checkStatus = octokit.repos.createStatus({
       ...context.repo,
       sha,
-      state: status,
-      description: status === 'pending' ? 'Tasks are pending' : 'All tasks are done',
+      state,
+      description: state === 'pending' ? 'Tasks are pending' : 'All tasks are done',
       context: 'tasks',
     });
-    core.setOutput("status", status);
+    core.setOutput('state', state);
     console.log(checkStatus);
   } catch (error) {
     core.setFailed(error.message);
