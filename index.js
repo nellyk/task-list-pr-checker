@@ -12,6 +12,7 @@ async function run() {
         return;
       }
       body = context.payload.pull_request.body;
+      console.log(payload);
     } else {
       body = context.payload.comment.body;
     }
@@ -33,7 +34,6 @@ async function run() {
       context: 'tasks',
     });
     core.setOutput('state', state);
-    console.log(checkStatus);
   } catch (error) {
     core.setFailed(error.message);
   }
