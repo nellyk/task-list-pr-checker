@@ -1,22 +1,21 @@
+
 name: Dependabot Pull Request
 on:
   push:
-    branches: 
+    branches:
       - main
 jobs:
-  automated-dependabot-pull-request:
+  productionPromotion:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: git fetch --prune --unshallow
-      - name: Create Dependabot pull request
+        with:
+          ref: main
+      - name: Reset promotion branch
+        run: |
+          git fetch origin dependabot-changes:dependabot-changes
+          git reset --hard dependabot-changes
+      - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.PA_TOKEN }}
-          commit-message: Dependabot pull request
-          author: 'OneAmexBot <one.amex@aexp.com>'
-          title: 'Dependabot pull request'
-          body: 'This is an auto-generated pull request for Dependabot changes. Please review this PR and merge it. Please close this PR to stop updating dependencies.'
-          labels: dependabot
           branch: dependabot-changes
-          base: main
