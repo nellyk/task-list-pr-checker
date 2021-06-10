@@ -15,6 +15,7 @@ jobs:
         run: |
           git fetch origin dependabot-changes:dependabot-changes
           git reset --hard dependabot-changes
+          git log -1 --pretty=format:"%s"
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
