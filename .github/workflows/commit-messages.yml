@@ -15,7 +15,7 @@ jobs:
                 - name: Create comment
       - uses: peter-evans/create-or-update-comment@v1
         with:
-          issue-number: 1
+          issue-number: 66
           body: |
             ${{ steps.set_commit_messages.outputs.commit_messages }}
           reactions: 'rocket'
