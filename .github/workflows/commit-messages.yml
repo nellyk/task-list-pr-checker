@@ -5,9 +5,17 @@ jobs:
     runs-on: ubuntu-16.04
     steps:
       - name: Dump GitHub context
+        id: set_commit_messages
         env:
           GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
         run: echo "$GITHUB_CONTEXT"
       - run: |
-           COMMIT_MESSAGEs= curl ${{ github.event.pull_request.commits_url }} | jq '[.[] | {message: .commit.message, name: .commit.committer.name, parents: [.parents[].html_url]}]'
-           echo ::set-output name=commit_messages::${COMMIT_MESSAGEs}
+           COMMIT_MESSAGES= curl ${{ github.event.pull_request.commits_url }} | jq '[.[] | {message: .commit.message, name: .commit.committer.name, parents: [.parents[].html_url]}]'
+           echo ::set-output name=commit_messages::${COMMIT_MESSAGES}
+                - name: Create comment
+      - uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: 1
+          body: |
+            ${{ steps.set_commit_messages.outputs.commit_messages }}
+          reactions: 'rocket'
