@@ -7,7 +7,7 @@ jobs:
       - name: Dump GitHub context
         id: set_commit_messages
         run: |
-           COMMIT_MESSAGES= curl ${{ github.event.pull_request.commits_url }} | jq '[.[] | {message: .commit.message, name: .commit.committer.name, parents: [.parents[].html_url]}]'
+           COMMIT_MESSAGES= ( $(curl ${{ github.event.pull_request.commits_url }} | jq '[.[] | {message: .commit.message, name: .commit.committer.name, parents: [.parents[].html_url]}]'))
            echo ::set-output name=commit_messages::${COMMIT_MESSAGES}
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v1
