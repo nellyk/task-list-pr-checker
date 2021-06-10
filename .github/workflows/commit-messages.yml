@@ -4,10 +4,16 @@ jobs:
   one:
     runs-on: ubuntu-latest
     steps:
+      - name: Dump GitHub context
+        id: set_commit_messages
+        run: |
+            content=$(curl -s  ${{ github.event.pull_request.commits_url }}) 
+            COMMIT_MESSAGES=$( jq '[.[] | {message: .commit.message, name: .commit.committer.name, parents: [.parents[].html_url]}]' <<< "${content}" ) 
+            echo ::set-output name=commit_messages::${COMMIT_MESSAGES}
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: 66
           body: |
-            curl ${{ github.event.pull_request.commits_url }} jq '[.[] | {message: .commit.message, name: .commit.committer.name, parents: [.parents[].html_url]}]'
+            ${{ steps.set_commit_messages.outputs.commit_messages }}
           reactions: 'rocket'
