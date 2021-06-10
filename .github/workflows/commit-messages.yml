@@ -8,7 +8,7 @@ jobs:
         id: set_commit_messages
         run: |
             content=$(curl -s  ${{ github.event.pull_request.commits_url }}) 
-            COMMIT_MESSAGES=$( jq '[.[] | {message: .commit.message, name: .commit.committer.name, parents: [.parents[].html_url]}]' <<< "${content}" ) 
+            COMMIT_MESSAGES=$( jq '.[] | .commit.message' <<< "${content}" )
             echo ::set-output name=commit_messages::${COMMIT_MESSAGES}
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v1
