@@ -10,7 +10,7 @@ jobs:
       - name: Dump GitHub context
         id: set_commit_messages
         run: |
-            content=$(curl -s  ${{ github.event.client_payload.pr_url }}) 
+            content=$(curl -s  https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.client_payload.pr_number }}/commits) 
             COMMIT_MESSAGES=$( jq '.[] | .commit.message' <<< "${content}" )
             echo ::set-output name=commit_messages::${COMMIT_MESSAGES}
       - name: Create comment
