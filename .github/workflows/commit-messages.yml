@@ -1,6 +1,5 @@
 name: PR commits
 on: 
-  pull_request:
   repository_dispatch:
     types: [commit_messages]
 jobs:
