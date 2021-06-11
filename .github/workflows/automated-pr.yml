@@ -29,6 +29,6 @@ jobs:
           repository: ${{ github.repository }}
           mediaType: '{"previews": ["everest"]}'
           event_type: "commit_messages"
-          client_payload: '{"commit_messages": "${{ steps.cpr.outputs.pull-request-number }}"}'
+          client_payload: '{"commit_messages": "${{ steps.cpr.outputs.pull-request-number }}", "pr_url": "${{ steps.cpr.outputs.pull-request-url }}"}'
         env:
           GITHUB_TOKEN: ${{ secrets.PA_TOKEN }}
