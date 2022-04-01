@@ -20,7 +20,7 @@
   "homepage": "https://github.com/nellyk/task-list-pr-checker#readme",
   "dependencies": {
     "@actions/core": "^1.6.0",
-    "@actions/github": "^5.0.0",
+    "@actions/github": "^5.0.1",
     "@octokit/webhooks": "^9.23.0"
   },
   "devDependencies": {
